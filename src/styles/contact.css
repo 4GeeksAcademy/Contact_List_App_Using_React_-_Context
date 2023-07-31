@@ -1,19 +1,24 @@
+p {
+    color:gray;
+    font-size: large;
+}
+.fas {
+    margin-right: 1vw;
+}
+h1 {
+    margin-top: 1vw;
+}
+/*make the blue light that appeared when pressing the button disappear*/
+.me:focus {
+    display: none;
+}
+/*make the image rounded*/
 img {
     border-radius: 50%;
     height: 170px;
     width: 170px;
 }
-p {
-    color:gray;
-    margin: 1vw;
-    font-size: large;
-}
-i {
-    margin-right: 2vw;
-}
-h1 {
-    margin-top: 1vw;
-}
+/*css to make the site responsive*/
 @media screen and (max-width: 600px) {
     p {
      font-size: 10px;

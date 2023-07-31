@@ -14,12 +14,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			],
 			users: [
-				{
-					name: "Mike Anamendolla",
-					adress: "5842 Hillcrest Rd",
-					phone: "(870) 288-4149",
-					email: "mike.ana@example.com"
-				}
 			] 
 		},
 		actions: {
@@ -46,6 +40,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
+
+			//function to get all the initial contacts from the API
 			getInicialContacts: () => {
 				//get the store
 				const store = getStore();
@@ -59,28 +55,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ users: response });
 					})
 				.catch(error => console.error(error));
-
-				//reset the global store
-				
 				
 			},
-			create: (newContact) => {
+
+			//function to add a new contact
+			addContact: (newContact) => {
 				//get the store
 				const store = getStore();
 				const contact = store.users.concat(newContact);
+			
+				//a fetch to update the contact with the new contact
+				fetch('https://jsonplaceholder.typicode.com/users', {
+					method: 'POST',
+					body: JSON.stringify(contact),
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				})
+				.then(res => {
+					if (!res.ok) throw Error(res.statusText);
+					return res.json();
+				})
+				.then(response => console.log('Success:', response))
+				.catch(error => console.error(error));
 
 				//reset the global store
 				setStore({ users: contact });
-
+				
 			},
-			update: () => {
-				//get the store
+
+			//function that allows to update contacts
+			update: (index, newContact) => {
 				const store = getStore();
+			console.log(index, newContact)
+				const contact = store.users.map((c, i) => {
+					if (index == i) {
+						c = newContact
+					}
+					return c
+				});
 
-
-				//reset the global store
-				//setStore({ users: contact });
+			console.log("test", contact)
+				setStore({ users: contact });
 			},
+
+			//function that allows to delete an item with to determined index
 			delete: (index) => {
 				//get the store
 				const store = getStore();
@@ -88,6 +107,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const contact = store.users.filter((c, i) => {
 					return index !== i
 				});
+				console.log(index)
+
+				fetch(`https://jsonplaceholder.typicode.com/users/${index}`, {
+					method: 'DELETE',
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				})
+				.then(res => {
+					if (!res.ok) throw Error(res.statusText);
+					return res.json();
+				})
+				.then(response => console.log('Success:', response))
+				.catch(error => console.error(error));
 
 				//reset the global store
 				setStore({ users: contact });
