@@ -39,7 +39,7 @@ export const EditContact = () => {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Phone</label>
-                    <input type="number"  className="form-control" id="phone" placeholder="Enter phone" defaultValue={user.phone}/>
+                    <input type="text"  className="form-control" id="phone" placeholder="Enter phone" defaultValue={user.phone}/>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Address</label>
